@@ -1,0 +1,17 @@
+{
+  "name": "linkify",
+  "version": "1.0.0",
+  "description": "Linkifies URLs in text",
+  "main": "src/index.js",
+  "repository": "https://github.com/iamareebjamal/linkify",
+  "author": "iamareebjamal",
+  "license": "Apache",
+  "private": false,
+  "scripts": {
+  	"build-regex": "rollup src/regex.js --file dist/regex.js --format umd --name regex",
+    "test": "ava test/index.js"
+  },
+  "devDependencies": {
+    "ava": "1.0.0-beta.8"
+  }
+}
