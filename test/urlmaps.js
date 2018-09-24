@@ -18,5 +18,9 @@ const urlMaps = module.exports = [
 	{
 		test: 'http://www.foo.bar./',
 		value: 'http://www.foo.bar'
+	},
+	{
+		test: 'http://.www.foo.bar/',
+		value: 'www.foo.bar/'
 	}
 ];
