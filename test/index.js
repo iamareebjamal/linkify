@@ -4,7 +4,6 @@ import matchingUrls from './matching'
 import unmatchingUrls from './unmatching'
 import urlMaps from './urlmaps'
 
-
 for (let url of matchingUrls) {
 	test('should match ' + url, async t => {
 		t.is(url.match(urlRegex)[0], url)

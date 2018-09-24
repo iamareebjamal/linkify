@@ -2,15 +2,15 @@ import urlRegex from './regex.js'
 
 const selector = '.linkify'
 
-const linkify = url => `<a class='postUrl' href='${url}'' target='_blank'>${url}</a>`
+const getAnchor = url => `<a class='postUrl' href='${url}'' target='_blank'>${url}</a>`
 
-function convertElements(elements) {
+function linkifyElements(elements) {
     elements.each(function() {
-        this.innerHTML = this.textContent.replace(urlRegex, linkify)
+        this.innerHTML = this.textContent.replace(urlRegex, getAnchor)
     });
 }
 
-function convert(element) {
+function linkify(element) {
     let elements = null;
     if (element == undefined) {
         elements = $(selector)
@@ -18,14 +18,14 @@ function convert(element) {
         elements = element.find(selector).addBack(selector)
     }
 
-    convertElements(elements)
+    linkifyElements(elements)
 }
 
 $.fn.linkify = function(bare) {
     if (bare) {
-        convertElements(this)
+        linkifyElements(this)
     } else {
-        convert(this)
+        linkify(this)
     }
 
     return this;
@@ -33,5 +33,5 @@ $.fn.linkify = function(bare) {
 
 export default {
     linkify,
-    convert
+    getAnchor
 }
