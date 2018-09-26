@@ -29,7 +29,7 @@
         </form>
       </div>
       <div id="list">
-        <div id="seed" class="mx-auto max-w-sm rounded-lg overflow-hidden shadow-md mb-4">
+        <div id="seed" class="mx-auto max-w-sm rounded-lg overflow-hidden post-content shadow-md mb-4 linkify-tags" data-post-tags="quia, nulla, maiores">
           <!-- <img class="w-full" src="https://tailwindcss.com/img/card-top.jpg" alt="Sunset in the mountains"> -->
           <div class="px-6 py-4">
             <div class="title font-bold text-xl mb-2">The Coldest Sunset</div>
@@ -51,7 +51,9 @@
       crossorigin="anonymous"></script>
     <script src="./dist/bundle.trans.js"></script>
     <script type="text/javascript">
-      $('.linkify').linkify();
+      $('.linkify').linkify({
+        tags: true
+      });
       
       const button = document.getElementById('submit');
       const title = document.getElementById('title');
@@ -65,7 +67,7 @@
           clone.querySelector('.content').innerHTML = content.value;
       
           $(clone)
-              .linkify()
+              .linkify({tags: true})
               .prependTo('#list')
               .hide()
               .fadeIn(500);

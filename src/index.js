@@ -1,8 +1,10 @@
 import urlRegex from './regex.js'
 
 const selector = '.linkify'
+const tagSelector = '.linkify-tags'
+const dataTag = 'data-post-tags'
 
-const getAnchor = url => `<a class='postUrl' href='${url}'' target='_blank'>${url}</a>`
+const getAnchor = (url, css) => `<a class='${css !== undefined ? css : 'postUrl'}' href='${css !== undefined ? '/tagged/' : ''}${url}' ${css === undefined ? "target='_blank'": ''}>${url}</a>`
 
 function linkifyElements(elements) {
     elements.each(function() {
@@ -10,22 +12,50 @@ function linkifyElements(elements) {
     });
 }
 
-function linkify(element) {
+function getElements(element) {
     let elements = null;
     if (element == undefined) {
-        elements = $(selector)
+        return $(selector)
     } else {
-        elements = element.find(selector).addBack(selector)
+        return element.find(selector).addBack(selector)
     }
-
-    linkifyElements(elements)
 }
 
-$.fn.linkify = function(bare) {
-    if (bare) {
+function linkify(element) {
+    linkifyElements(getElements(element))
+}
+
+function linkifyTags(element) {
+    const elements = getElements(element)
+
+    elements.each(function() {
+        var tags = $(this.closest(`${tagSelector}[${dataTag}]`)).attr(dataTag)
+
+        if (tags) {
+            tags = tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+            const tagRegex = new RegExp(`(?:^|[\\s,;!])(${tags.join('|')})(?=[\\s\\.,;!]|$)`, 'ig')
+            
+            this.innerHTML = this.innerHTML.replace(tagRegex, (extra, match) => {
+                return extra.replace(match, getAnchor(match, 'postKeyword'))
+            })
+        }
+    })
+}
+
+$.fn.linkify = function(options) {
+    const settings = $.extend({
+        bare: false,
+        tags: false
+    }, options);
+
+    if (settings.bare) {
         linkifyElements(this)
     } else {
         linkify(this)
+    }
+
+    if (settings.tags) {
+        linkifyTags(this)
     }
 
     return this;
